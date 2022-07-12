@@ -1,0 +1,20 @@
+network.host: 0.0.0.0
+cluster.name: ${cluster.name}
+
+discovery.seed_hosts: ${discovery.seed_hosts}
+node.name: ${node.name}
+cluster.initial_master_nodes: ${cluster.initial_master_nodes}
+xpack.security.enabled: true
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.key: /home/elasticsearch/elasticsearch-8.3.1/config/certs/master-node/master-node.key
+xpack.security.http.ssl.certificate: /home/elasticsearch/elasticsearch-8.3.1/config/certs/master-node/master-node.crt
+xpack.security.http.ssl.certificate_authorities: /home/elasticsearch/elasticsearch-8.3.1/config/certs/ca/ca.crt
+xpack.security.http.ssl.verification_mode: certificate
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.key: /home/elasticsearch/elasticsearch-8.3.1/config/certs/master-node/master-node.key
+xpack.security.transport.ssl.certificate: /home/elasticsearch/elasticsearch-8.3.1/config/certs/master-node/master-node.crt
+xpack.security.transport.ssl.certificate_authorities: /home/elasticsearch/elasticsearch-8.3.1/config/certs/ca/ca.crt
+xpack.security.transport.ssl.verification_mode: certificate
+
+xpack.monitoring.collection.enabled: true
+xpack.monitoring.elasticsearch.collection.enabled: false

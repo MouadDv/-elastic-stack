@@ -1,0 +1,8 @@
+server.host: "0.0.0.0"
+monitoring.kibana.collection.enabled: false
+elasticsearch.hosts: ["https://master-node:9200"]
+elasticsearch.username: "kibana_system"
+elasticsearch.password: ${KIBANA_PASSWORD}
+elasticsearch.ssl.verificationMode: certificate
+elasticsearch.ssl.certificateAuthorities: [ "/etc/kibana/config/certs/ca/ca.crt" ]
+

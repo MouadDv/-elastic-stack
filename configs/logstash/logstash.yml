@@ -1,0 +1,14 @@
+http.host: "0.0.0.0"
+http.port: 9600
+xpack.monitoring.enabled: true
+xpack.monitoring.elasticsearch.hosts: [ "https://master-node:9200" ]
+xpack.monitoring.elasticsearch.username: "elastic"
+xpack.monitoring.elasticsearch.password: "${ELASTIC_PASSWORD}"
+xpack.monitoring.elasticsearch.ssl.certificate_authority: /root/config/certs/ca/ca.crt
+xpack.monitoring.elasticsearch.ssl.verification_mode: none
+  #pipeline.workers: 2
+  #node.name: "data_test"
+pipeline:
+  workers: 2
+node:
+  name: "tanger-testing"
