@@ -1,0 +1,188 @@
+{"0": {
+    "doc": "About2",
+    "title": "About2",
+    "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ",
+    "url": "http://localhost:4000/_posts",
+    "relUrl": "/_posts"
+  },"1": {
+    "doc": "child page",
+    "title": "this is a test",
+    "content": " ",
+    "url": "http://localhost:4000/child1.html#this-is-a-test",
+    "relUrl": "/child1.html#this-is-a-test"
+  },"2": {
+    "doc": "child page",
+    "title": "this is a test",
+    "content": "this is a test . Bold text test . testing . | first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third1. first | second | third | . ",
+    "url": "http://localhost:4000/child1.html#this-is-a-test-1",
+    "relUrl": "/child1.html#this-is-a-test-1"
+  },"3": {
+    "doc": "child page",
+    "title": "haskjfd",
+    "content": ". | First | Second | Third | . int e = 11; // this is a test . this is a test . this is a test . # this is a test int i = 0; . ",
+    "url": "http://localhost:4000/child1.html#haskjfd",
+    "relUrl": "/child1.html#haskjfd"
+  },"4": {
+    "doc": "child page",
+    "title": "child page",
+    "content": "testing this shit . ",
+    "url": "http://localhost:4000/child1.html",
+    "relUrl": "/child1.html"
+  },"5": {
+    "doc": "Home",
+    "title": "Home",
+    "content": "In this Documentation we are going to go through the ELK stack and try to understand the stack elements and there configuration. Overview of the stack . Installation . Configuration . ",
+    "url": "http://localhost:4000/home/",
+    "relUrl": "/home/"
+  },"6": {
+    "doc": "Installation",
+    "title": "Elasticsearch installation and configuration on Linux",
+    "content": "To download Elasticsearch archive we can use wget or curl: . wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.3.1-linux-x86_64.tar.gz wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.3.1-linux-x86_64.tar.gz.sha512 shasum -a 512 -c elasticsearch-8.3.1-linux-x86_64.tar.gz.sha512 tar -xzf elasticsearch-8.3.1-linux-x86_64.tar.gz cd elasticsearch-8.3.1/ . ",
+    "url": "http://localhost:4000/installation/#elasticsearch-installation-and-configuration-on-linux",
+    "relUrl": "/installation/#elasticsearch-installation-and-configuration-on-linux"
+  },"7": {
+    "doc": "Installation",
+    "title": "Installation",
+    "content": "All the configurations in this documantation are for version 8.3.1 of the stack. ",
+    "url": "http://localhost:4000/installation/",
+    "relUrl": "/installation/"
+  },"8": {
+    "doc": "Overview",
+    "title": "Elasticsearch",
+    "content": "Elasticsearch is a search and analytics engine. It is based on Lucene search engine, and it is built with RESTful APIS. It offers simple deployment, maximum reliability, and easy management. It also offers advanced queries to perform detail analysis and stores all the data centrally. It is helpful for executing a quick search of the documents. ",
+    "url": "http://localhost:4000/Overview/#elasticsearch",
+    "relUrl": "/Overview/#elasticsearch"
+  },"9": {
+    "doc": "Overview",
+    "title": "Features of Elasticsearch",
+    "content": ". | Near real-time searching: | . Elasticsearch is a distributed document store. Instead of storing information as rows of columnar data, Elasticsearch stores complex data structures that have been serialized as JSON documents. When you have multiple Elasticsearch nodes in a cluster, stored documents are distributed across the cluster and can be accessed immediately from any node. When a document is stored, it is indexed and fully searchable in near real-time–within 1 second. Elasticsearch uses a data structure called an inverted index that supports very fast full-text searches. An inverted index lists every unique word that appears in any document and identifies all of the documents each word occurs in. | High level of customization: | . Managing indexing lifecycle . Resource#1 . Depending on your need you can customize the indexing lifecycle, per example you can configure elasticsearch to automaticlly create a new indices when an index reaches a certain size. Node roles . Resource#1 Resource#2 . You can assign a role to your nodes, to enssure efficancy out of your cluster. By creating a collection of nodes with the same data role you are creating data tiers that are the defined as follows . | Content tier nodes handle the indexing and query load for content such as a product catalog. | Hot tier nodes handle the indexing load for time series data such as logs or metrics and hold your most recent, most-frequently-accessed data. | Warm tier nodes hold time series data that is accessed less-frequently and rarely needs to be updated. | Cold tier nodes hold time series data that is accessed infrequently and not normally updated. To save space, you can keep fully mounted indices of searchable snapshots on the cold tier. These fully mounted indices eliminate the need for replicas, reducing required disk space by approximately 50% compared to the regular indices. | Frozen tier nodes hold time series data that is accessed rarely and never updated. The frozen tier stores partially mounted indices of searchable snapshots exclusively. This extends the storage capacity even further — by up to 20 times compared to the warm tier. | . RESTful APIS . Resource#1 . Elasticsearch provide us with an extensive RESTful APIs which allow us to integrate, manage and query the indexed data without using an interface. Scalability, Resilience and Redundancy . Resource#1 . Elasticsearch is built to be always available and to scale with your needs. It does this by being distributed by nature. You can add nodes to a cluster to increase capacity and Elasticsearch automatically distributes your data and query load across all of the available nodes. No need to overhaul your application, Elasticsearch knows how to balance multi-node clusters to provide scale and high availability. By distributing the documents in an index across multiple shards, and distributing those shards across multiple nodes, Elasticsearch can ensure redundancy, which both protects against hardware failures and increases query capacity as nodes are added to a cluster. ",
+    "url": "http://localhost:4000/Overview/#features-of-elasticsearch",
+    "relUrl": "/Overview/#features-of-elasticsearch"
+  },"10": {
+    "doc": "Overview",
+    "title": "Logstash",
+    "content": "Logstash is responsible for aggregating data from different sources, processing it, and sending it down the pipeline, usually to be directly indexed in Elasticsearch. ",
+    "url": "http://localhost:4000/Overview/#logstash",
+    "relUrl": "/Overview/#logstash"
+  },"11": {
+    "doc": "Overview",
+    "title": "Logstash inputs",
+    "content": "Using more than 50 input plugins for different platforms, databases and applications, Logstash can be defined to collect and process data from these sources and send them to other systems for storage and analysis. The most common inputs used are file, beats, syslog, http, tcp, stdin but you can ingest data from plenty of other sources. ",
+    "url": "http://localhost:4000/Overview/#logstash-inputs",
+    "relUrl": "/Overview/#logstash-inputs"
+  },"12": {
+    "doc": "Overview",
+    "title": "Logstash Filters",
+    "content": "Logstash supports a number of extremely powerful filter plugins that enable you to manipulate, measure, and create events. It’s the power of these filters that makes Logstash a very versatile and valuable tool. ",
+    "url": "http://localhost:4000/Overview/#logstash-filters",
+    "relUrl": "/Overview/#logstash-filters"
+  },"13": {
+    "doc": "Overview",
+    "title": "Kibana",
+    "content": "Kibana is a data visualization and exploration tool used for log and time-series analytics, application monitoring, and operational intelligence use cases. It offers powerful and easy-to-use features such as histograms, line graphs, pie charts, heat maps, and built-in geospatial support. ",
+    "url": "http://localhost:4000/Overview/#kibana",
+    "relUrl": "/Overview/#kibana"
+  },"14": {
+    "doc": "Overview",
+    "title": "",
+    "content": " ",
+    "url": "http://localhost:4000/Overview/",
+    "relUrl": "/Overview/"
+  },"15": {
+    "doc": "Overview",
+    "title": "Overview",
+    "content": "So, what is the ELK Stack? “ELK” is the acronym for three open source projects: Elasticsearch, Logstash, and Kibana. ",
+    "url": "http://localhost:4000/Overview/",
+    "relUrl": "/Overview/"
+  },"16": {
+    "doc": "Resources",
+    "title": "What is a SIEM",
+    "content": "https://www.ibm.com/topics/siem . SIEM tools are an important part of the data security ecosystem: they aggregate data from multiple systems and analyze that data to catch abnormal behavior or potential cyberattacks. SIEM tools provide a central place to collect events and alerts – but can be expensive, resource intensive, and customers report that it is often difficult to resolve problems with SIEM data. ",
+    "url": "http://localhost:4000/Resources/#what-is-a-siem",
+    "relUrl": "/Resources/#what-is-a-siem"
+  },"17": {
+    "doc": "Resources",
+    "title": "Elk stack as a SIEM",
+    "content": "https://www.elastic.co/security/siem . ",
+    "url": "http://localhost:4000/Resources/#elk-stack-as-a-siem",
+    "relUrl": "/Resources/#elk-stack-as-a-siem"
+  },"18": {
+    "doc": "Resources",
+    "title": "Elk stack architecture",
+    "content": "https://www.softwaretestinghelp.com/elk-stack-tutorial/#:~:text=A%20simple%20ELK%20stack%20architecture,stored%2C%20searched%2C%20and%20indexed. https://medium.com/dataseries/elk-stack-architecture-deep-dive-41168732f0e3 . | Built on top of Apache Lucene (it itself is a powerful search engine, all the power of Lucene easily expose to simple configuration and plugins, it handles human language synonyms, typo mistake) | NoSQL Datastore (like MongoDB) | Schema-free (no need to define a schema before adding data into Elasticsearch) | JSON Document (data in Elasticsearch is stored in form of JSON document) | RESTful APIs (Elasticsearch has powerful RESTful APIs that you can interact with cluster) | Node | Cluster | . ",
+    "url": "http://localhost:4000/Resources/#elk-stack-architecture",
+    "relUrl": "/Resources/#elk-stack-architecture"
+  },"19": {
+    "doc": "Resources",
+    "title": "scaling",
+    "content": "Vertical Scaling . Vertical scaling refers to increasing the processing power of a single server or cluster. Both relational and non-relational databases can scale up, but eventually, there will be a limit in terms of maximum processing power and throughput. Additionally, there are increased costs with scaling up to high-performing hardware, as costs do not scale linearly. Horizontal Scaling . Horizontal scaling, also known as scale-out, refers to bringing on additional nodes to share the load. This is difficult with relational databases due to the difficulty in spreading out related data across nodes. With non-relational databases, this is made simpler since collections are self-contained and not coupled relationally. This allows them to be distributed across nodes more simply, as queries do not have to “join” them together across nodes. ",
+    "url": "http://localhost:4000/Resources/#scaling",
+    "relUrl": "/Resources/#scaling"
+  },"20": {
+    "doc": "Resources",
+    "title": "Elasticsearch scalability and resilience",
+    "content": "Scalability and resilience: clusters, nodes, and shardsedit Elasticsearch is built to be always available and to scale with your needs. It does this by being distributed by nature. You can add servers (nodes) to a cluster to increase capacity and Elasticsearch automatically distributes your data and query load across all of the available nodes. No need to overhaul your application, Elasticsearch knows how to balance multi-node clusters to provide scale and high availability. The more nodes, the merrier. How does this work? Under the covers, an Elasticsearch index is really just a logical grouping of one or more physical shards, where each shard is actually a self-contained index. By distributing the documents in an index across multiple shards, and distributing those shards across multiple nodes, Elasticsearch can ensure redundancy, which both protects against hardware failures and increases query capacity as nodes are added to a cluster. As the cluster grows (or shrinks), Elasticsearch automatically migrates shards to rebalance the cluster. There are two types of shards: primaries and replicas. Each document in an index belongs to one primary shard. A replica shard is a copy of a primary shard. Replicas provide redundant copies of your data to protect against hardware failure and increase capacity to serve read requests like searching or retrieving a document. The number of primary shards in an index is fixed at the time that an index is created, but the number of replica shards can be changed at any time, without interrupting indexing or query operations. ",
+    "url": "http://localhost:4000/Resources/#elasticsearch-scalability-and-resilience",
+    "relUrl": "/Resources/#elasticsearch-scalability-and-resilience"
+  },"21": {
+    "doc": "Resources",
+    "title": "elastic search search language",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#elastic-search-search-language",
+    "relUrl": "/Resources/#elastic-search-search-language"
+  },"22": {
+    "doc": "Resources",
+    "title": "jvm heap sizing",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#jvm-heap-sizing",
+    "relUrl": "/Resources/#jvm-heap-sizing"
+  },"23": {
+    "doc": "Resources",
+    "title": "API and RESTful APIs in ELasticsearch",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#api-and-restful-apis-in-elasticsearch",
+    "relUrl": "/Resources/#api-and-restful-apis-in-elasticsearch"
+  },"24": {
+    "doc": "Resources",
+    "title": "ETL",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#etl",
+    "relUrl": "/Resources/#etl"
+  },"25": {
+    "doc": "Resources",
+    "title": "Multitentants",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#multitentants",
+    "relUrl": "/Resources/#multitentants"
+  },"26": {
+    "doc": "Resources",
+    "title": "secutity features SIEM",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#secutity-features-siem",
+    "relUrl": "/Resources/#secutity-features-siem"
+  },"27": {
+    "doc": "Resources",
+    "title": "data tiers in elasticsearch",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#data-tiers-in-elasticsearch",
+    "relUrl": "/Resources/#data-tiers-in-elasticsearch"
+  },"28": {
+    "doc": "Resources",
+    "title": "life cycle managment",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/#life-cycle-managment",
+    "relUrl": "/Resources/#life-cycle-managment"
+  },"29": {
+    "doc": "Resources",
+    "title": "xdr elasticsearch",
+    "content": ". ",
+    "url": "http://localhost:4000/Resources/#xdr-elasticsearch",
+    "relUrl": "/Resources/#xdr-elasticsearch"
+  },"30": {
+    "doc": "Resources",
+    "title": "Resources",
+    "content": " ",
+    "url": "http://localhost:4000/Resources/",
+    "relUrl": "/Resources/"
+  }
+}
