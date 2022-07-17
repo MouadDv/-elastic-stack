@@ -66,203 +66,215 @@
     "relUrl": "/installation/#monitor-a-windows-machine-using-sysmon-logs"
   },"11": {
     "doc": "Installation",
+    "title": "Fleet server",
+    "content": "Resource#1 . Resource#2 . Fleet Server is a component of the Elastic Stack used to centrally manage Elastic Agents. It’s launched as part of an Elastic Agent on a host intended to act as a server. One Fleet Server process can support many Elastic Agent connections, and serves as a control plane for updating agent policies, collecting status information, and coordinating actions across Elastic Agents. To deploy a self-managed Fleet Server, you install an Elastic Agent and enroll it in an agent policy containing the Fleet Server integration. First we need to creat Fleet server policy, Head to Management &gt; Fleet &gt; Settings and specify your host IP adress. After that you be provided with the commands needed to start your fleet server. The commands contain commands to download elastic agent. Be careful with the version to insure compatibility. If you enabled security on your cluster you need to specify the path for your CA cert so the ssl can be verified, You can use the flag –fleet-server-es-ca= to provide an absolute path to your CA cert. ",
+    "url": "http://localhost:4000/installation/#fleet-server",
+    "relUrl": "/installation/#fleet-server"
+  },"12": {
+    "doc": "Installation",
+    "title": "Monitor your stack with Metricbeat",
+    "content": "Metricbeat is a lightweight agent that can be installed on target servers to periodically collect metric data from your target servers, this could be operating system metrics such as CPU or memory or data related to services running on the server. It can also be used to monitor other beats and ELK stack itself. First we need to enable monitoring on elastisearch cluster: . Add this to your elasticsearch.yml . xpack.monitoring.collection.enabled: true xpack.monitoring.elasticsearch.collection.enabled: true . After saving the config you have to restart elasticsearch. Now download metricbeat: . wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-8.3.1-linux-x86_64.tar.gz tar -xzf metricbeat-8.3.1-linux-x86_64.tar.gz cd metricbeat-8.3.1/ . Your main config file will be config/metricbeat.yml. You can enable modules and configure each module directly from modules.d/nameofmodule.yml, Or you can configure modules directly on your metricbeat.yml. metricbeat.yml . # Provide elasticsearch host and credentials so metricbeat can save data in your cluster. p.s don't forget CA.crt so metricbeat can verify the ssl connection. output.elasticsearch: hosts: [\"https://localhost:9200\"] username: \"elastic\" password: 'elastic_password' ssl: enabled: true certificate_authorities: \"/root/config/certs/ca/ca.crt\" # We gonna monitor our whole stack so we are going to enable modules for elasticsearch, kibana, logstash metricbeat.modules: - module: elasticsearch xpack.enabled: true period: 10s scope: cluster hosts: [\"https://localhost:9200\"] username: \"elastic\" password: 'elastic_password' ssl: enabled: true certificate_authorities: \"/root/config/certs/ca/ca.crt\" - module: kibana metricsets: [\"status\"] period: 10s xpack.enabled: true hosts: [\"http://localhost:5601\"] username: \"elastic\" password: 'elastic_password' - module: logstash metricsets: [\"node\", \"node_stats\"] period: 10s hosts: [\"localhost:9600\"] username: \"elastic\" password: 'elastic_password' xpack.enabled: true # Provide your kibana credentials so the dashboards can be setted up. setup.kibana: host: \"kibana:5601\" protocol: \"http\" username: \"elastic\" password: '${ELASTIC_PASSWORD}' . Now you can start Metricbeat setup: ./metricbeat setup -e . and start metricbeat to start collecting metrics: ./metricbeat -e . If everything worked right, you need to find metricbeat dashboard in kibana, and monitor section start showing metrics. ",
+    "url": "http://localhost:4000/installation/#monitor-your-stack-with-metricbeat",
+    "relUrl": "/installation/#monitor-your-stack-with-metricbeat"
+  },"13": {
+    "doc": "Installation",
     "title": "Installation",
     "content": "All the configurations in this documantation are for version 8.3.1 of the stack. All the configuration files are included in the main branch of this repo. Note: all the elk stack software we installed are the same version, Be carefull with the version you choose to install because elk stack does not do well with back compatibility. Support Matrix for all Elastic softwares . ",
     "url": "http://localhost:4000/installation/",
     "relUrl": "/installation/"
-  },"12": {
+  },"14": {
     "doc": "Overview",
     "title": "Elasticsearch",
     "content": "Elasticsearch is a search and analytics engine. It is based on Lucene search engine, and it is built with RESTful APIS. It offers simple deployment, maximum reliability, and easy management. It also offers advanced queries to perform detail analysis and stores all the data centrally. It is helpful for executing a quick search of the documents. ",
     "url": "http://localhost:4000/Overview/#elasticsearch",
     "relUrl": "/Overview/#elasticsearch"
-  },"13": {
+  },"15": {
     "doc": "Overview",
     "title": "Features of Elasticsearch",
     "content": ". | Near real-time searching: | . Elasticsearch is a distributed document store. Instead of storing information as rows of columnar data, Elasticsearch stores complex data structures that have been serialized as JSON documents. When you have multiple Elasticsearch nodes in a cluster, stored documents are distributed across the cluster and can be accessed immediately from any node. When a document is stored, it is indexed and fully searchable in near real-time–within 1 second. Elasticsearch uses a data structure called an inverted index that supports very fast full-text searches. An inverted index lists every unique word that appears in any document and identifies all of the documents each word occurs in. | High level of customization: | . Managing indexing lifecycle . Resource#1 . Depending on your need you can customize the indexing lifecycle, per example you can configure elasticsearch to automaticlly create a new indices when an index reaches a certain size. Node roles . Resource#1 Resource#2 . You can assign a role to your nodes, to enssure efficancy out of your cluster. By creating a collection of nodes with the same data role you are creating data tiers that are the defined as follows . | Content tier nodes handle the indexing and query load for content such as a product catalog. | Hot tier nodes handle the indexing load for time series data such as logs or metrics and hold your most recent, most-frequently-accessed data. | Warm tier nodes hold time series data that is accessed less-frequently and rarely needs to be updated. | Cold tier nodes hold time series data that is accessed infrequently and not normally updated. To save space, you can keep fully mounted indices of searchable snapshots on the cold tier. These fully mounted indices eliminate the need for replicas, reducing required disk space by approximately 50% compared to the regular indices. | Frozen tier nodes hold time series data that is accessed rarely and never updated. The frozen tier stores partially mounted indices of searchable snapshots exclusively. This extends the storage capacity even further — by up to 20 times compared to the warm tier. | . RESTful APIS . Resource#1 . Elasticsearch provide us with an extensive RESTful APIs which allow us to integrate, manage and query the indexed data without using an interface. Scalability, Resilience and Redundancy . Resource#1 . Elasticsearch is built to be always available and to scale with your needs. It does this by being distributed by nature. You can add nodes to a cluster to increase capacity and Elasticsearch automatically distributes your data and query load across all of the available nodes. No need to overhaul your application, Elasticsearch knows how to balance multi-node clusters to provide scale and high availability. By distributing the documents in an index across multiple shards, and distributing those shards across multiple nodes, Elasticsearch can ensure redundancy, which both protects against hardware failures and increases query capacity as nodes are added to a cluster. ",
     "url": "http://localhost:4000/Overview/#features-of-elasticsearch",
     "relUrl": "/Overview/#features-of-elasticsearch"
-  },"14": {
+  },"16": {
     "doc": "Overview",
     "title": "Logstash",
     "content": "Logstash is a plugin-based data collection and processing engine. It comes with a wide range of plugins that makes it possible to easily configre it to collect, process and forward data in many different architectures. Processing is organized into one or more pipelines. In each pipeline, one or more input plugins receive or collect data that is then placed on an internal queue. This is by default small and held in memory, but can be configured to be larger and persisted on disk in order to improve reliability and resiliency. ",
     "url": "http://localhost:4000/Overview/#logstash",
     "relUrl": "/Overview/#logstash"
-  },"15": {
+  },"17": {
     "doc": "Overview",
     "title": "Kibana",
     "content": "Kibana is a data visualization and exploration tool used for log and time-series analytics, application monitoring, and operational intelligence use cases. It offers powerful and easy-to-use features such as histograms, line graphs, pie charts, heat maps, and built-in geospatial support. ",
     "url": "http://localhost:4000/Overview/#kibana",
     "relUrl": "/Overview/#kibana"
-  },"16": {
+  },"18": {
     "doc": "Overview",
     "title": "",
     "content": " ",
     "url": "http://localhost:4000/Overview/",
     "relUrl": "/Overview/"
-  },"17": {
+  },"19": {
     "doc": "Overview",
     "title": "Overview",
     "content": "So, what is the ELK Stack? “ELK” is the acronym for three open source projects: Elasticsearch, Logstash, and Kibana. ",
     "url": "http://localhost:4000/Overview/",
     "relUrl": "/Overview/"
-  },"18": {
+  },"20": {
     "doc": "Resources",
     "title": "What is a SIEM",
     "content": "https://www.ibm.com/topics/siem . SIEM tools are an important part of the data security ecosystem: they aggregate data from multiple systems and analyze that data to catch abnormal behavior or potential cyberattacks. SIEM tools provide a central place to collect events and alerts – but can be expensive, resource intensive, and customers report that it is often difficult to resolve problems with SIEM data. ",
     "url": "http://localhost:4000/Resources#what-is-a-siem",
     "relUrl": "/Resources#what-is-a-siem"
-  },"19": {
+  },"21": {
     "doc": "Resources",
     "title": "Elk stack as a SIEM",
     "content": "https://www.elastic.co/security/siem . ",
     "url": "http://localhost:4000/Resources#elk-stack-as-a-siem",
     "relUrl": "/Resources#elk-stack-as-a-siem"
-  },"20": {
+  },"22": {
     "doc": "Resources",
     "title": "Elk stack architecture",
     "content": "https://www.softwaretestinghelp.com/elk-stack-tutorial/#:~:text=A%20simple%20ELK%20stack%20architecture,stored%2C%20searched%2C%20and%20indexed. https://medium.com/dataseries/elk-stack-architecture-deep-dive-41168732f0e3 . | Built on top of Apache Lucene (it itself is a powerful search engine, all the power of Lucene easily expose to simple configuration and plugins, it handles human language synonyms, typo mistake) | NoSQL Datastore (like MongoDB) | Schema-free (no need to define a schema before adding data into Elasticsearch) | JSON Document (data in Elasticsearch is stored in form of JSON document) | RESTful APIs (Elasticsearch has powerful RESTful APIs that you can interact with cluster) | Node | Cluster | . ",
     "url": "http://localhost:4000/Resources#elk-stack-architecture",
     "relUrl": "/Resources#elk-stack-architecture"
-  },"21": {
+  },"23": {
     "doc": "Resources",
     "title": "scaling",
     "content": "Vertical Scaling . Vertical scaling refers to increasing the processing power of a single server or cluster. Both relational and non-relational databases can scale up, but eventually, there will be a limit in terms of maximum processing power and throughput. Additionally, there are increased costs with scaling up to high-performing hardware, as costs do not scale linearly. Horizontal Scaling . Horizontal scaling, also known as scale-out, refers to bringing on additional nodes to share the load. This is difficult with relational databases due to the difficulty in spreading out related data across nodes. With non-relational databases, this is made simpler since collections are self-contained and not coupled relationally. This allows them to be distributed across nodes more simply, as queries do not have to “join” them together across nodes. ",
     "url": "http://localhost:4000/Resources#scaling",
     "relUrl": "/Resources#scaling"
-  },"22": {
+  },"24": {
     "doc": "Resources",
     "title": "Elasticsearch scalability and resilience",
     "content": "Scalability and resilience: clusters, nodes, and shardsedit Elasticsearch is built to be always available and to scale with your needs. It does this by being distributed by nature. You can add servers (nodes) to a cluster to increase capacity and Elasticsearch automatically distributes your data and query load across all of the available nodes. No need to overhaul your application, Elasticsearch knows how to balance multi-node clusters to provide scale and high availability. The more nodes, the merrier. How does this work? Under the covers, an Elasticsearch index is really just a logical grouping of one or more physical shards, where each shard is actually a self-contained index. By distributing the documents in an index across multiple shards, and distributing those shards across multiple nodes, Elasticsearch can ensure redundancy, which both protects against hardware failures and increases query capacity as nodes are added to a cluster. As the cluster grows (or shrinks), Elasticsearch automatically migrates shards to rebalance the cluster. There are two types of shards: primaries and replicas. Each document in an index belongs to one primary shard. A replica shard is a copy of a primary shard. Replicas provide redundant copies of your data to protect against hardware failure and increase capacity to serve read requests like searching or retrieving a document. The number of primary shards in an index is fixed at the time that an index is created, but the number of replica shards can be changed at any time, without interrupting indexing or query operations. ",
     "url": "http://localhost:4000/Resources#elasticsearch-scalability-and-resilience",
     "relUrl": "/Resources#elasticsearch-scalability-and-resilience"
-  },"23": {
+  },"25": {
     "doc": "Resources",
     "title": "elastic search search language",
     "content": "https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html . https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html . ",
     "url": "http://localhost:4000/Resources#elastic-search-search-language",
     "relUrl": "/Resources#elastic-search-search-language"
-  },"24": {
+  },"26": {
     "doc": "Resources",
     "title": "jvm heap sizing",
     "content": "https://www.elastic.co/guide/en/cloud-enterprise/2.0/ece-heap.html#:~:text=Elasticsearch%20clusters%20and%20JVM%20Heap%20Size&amp;text=The%20ideal%20heap%20size%20is,container%20that%20hosts%20your%20cluster. https://www.elastic.co/guide/en/elasticsearch/reference/6.5/heap-size.html . ",
     "url": "http://localhost:4000/Resources#jvm-heap-sizing",
     "relUrl": "/Resources#jvm-heap-sizing"
-  },"25": {
+  },"27": {
     "doc": "Resources",
     "title": "API and RESTful APIs in ELasticsearch",
     "content": "https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html . https://logz.io/blog/elasticsearch-api/ . https://hevodata.com/learn/elasticsearch-rest-api/ . ",
     "url": "http://localhost:4000/Resources#api-and-restful-apis-in-elasticsearch",
     "relUrl": "/Resources#api-and-restful-apis-in-elasticsearch"
-  },"26": {
+  },"28": {
     "doc": "Resources",
     "title": "ETL",
     "content": "https://www.ibm.com/cloud/learn/etl#:~:text=ETL%2C%20which%20stands%20for%20extract,warehouse%20or%20other%20target%20system. https://en.wikipedia.org/wiki/Extract,_transform,_load . ",
     "url": "http://localhost:4000/Resources#etl",
     "relUrl": "/Resources#etl"
-  },"27": {
+  },"29": {
     "doc": "Resources",
     "title": "Multitentants",
     "content": "https://www.techtarget.com/whatis/definition/multi-tenancy#:~:text=Multi%2Dtenancy%20is%20an%20architecture,customer%20is%20called%20a%20tenant. https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference . https://www.sisense.com/glossary/multi-tenant/ . https://en.wikipedia.org/wiki/Multitenancy . ",
     "url": "http://localhost:4000/Resources#multitentants",
     "relUrl": "/Resources#multitentants"
-  },"28": {
+  },"30": {
     "doc": "Resources",
     "title": "Security features SIEM",
     "content": "https://www.elastic.co/guide/en/kibana/current/xpack-siem.html#:~:text=Elastic%20Security%20combines%20SIEM%20threat,before%20damage%20and%20loss%20occur. ",
     "url": "http://localhost:4000/Resources#security-features-siem",
     "relUrl": "/Resources#security-features-siem"
-  },"29": {
+  },"31": {
     "doc": "Resources",
     "title": "data tiers in elasticsearch",
     "content": "https://www.elastic.co/guide/en/elasticsearch/reference/current/data-tiers.html . https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html . ",
     "url": "http://localhost:4000/Resources#data-tiers-in-elasticsearch",
     "relUrl": "/Resources#data-tiers-in-elasticsearch"
-  },"30": {
+  },"32": {
     "doc": "Resources",
     "title": "life cycle managment",
     "content": "https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html . ",
     "url": "http://localhost:4000/Resources#life-cycle-managment",
     "relUrl": "/Resources#life-cycle-managment"
-  },"31": {
+  },"33": {
     "doc": "Resources",
     "title": "xdr elasticsearch",
     "content": "https://www.elastic.co/what-is/limitless-xdr . https://www.elastic.co/blog/elasticon-global-security . ",
     "url": "http://localhost:4000/Resources#xdr-elasticsearch",
     "relUrl": "/Resources#xdr-elasticsearch"
-  },"32": {
+  },"34": {
     "doc": "Resources",
     "title": "Logstash parsing",
     "content": "https://www.elastic.co/guide/en/logstash/current/advanced-pipeline.html . https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html . https://www.tutorialspoint.com/logstash/logstash_parsing_the_logs.htm . ",
     "url": "http://localhost:4000/Resources#logstash-parsing",
     "relUrl": "/Resources#logstash-parsing"
-  },"33": {
+  },"35": {
     "doc": "Resources",
     "title": "Resources",
     "content": " ",
     "url": "http://localhost:4000/Resources",
     "relUrl": "/Resources"
-  },"34": {
+  },"36": {
     "doc": "Usage",
     "title": "Elasticsearch",
     "content": "List of Elasticsearch REST APIs . As said before elasticsearch provide an extensive RESTful APIs we gonna see some examples: . To perform an API request we can use different ways: . | Kibana console section | cURL requests | Any API platform(Post man…) | . ",
     "url": "http://localhost:4000/usage#elasticsearch",
     "relUrl": "/usage#elasticsearch"
-  },"35": {
+  },"37": {
     "doc": "Usage",
     "title": "Index APIs",
     "content": "As its name implies, these API calls can be used to query indexed data for specific information. # Creates a new index. GET /PUT /my-index-000001 . # Returns information about one or more indices. For data streams, the API returns information about the stream’s backing indices. GET /my-index-000001 . ",
     "url": "http://localhost:4000/usage#index-apis",
     "relUrl": "/usage#index-apis"
-  },"36": {
+  },"38": {
     "doc": "Usage",
     "title": "Search Api",
     "content": "Search APIs are used to search and aggregate data stored in Elasticsearch indices and data streams. # Returns search hits that match the query defined in the request. GET /my-index-000001/_search . ",
     "url": "http://localhost:4000/usage#search-api",
     "relUrl": "/usage#search-api"
-  },"37": {
+  },"39": {
     "doc": "Usage",
     "title": "Kibana",
     "content": " ",
     "url": "http://localhost:4000/usage#kibana",
     "relUrl": "/usage#kibana"
-  },"38": {
+  },"40": {
     "doc": "Usage",
     "title": "Visualize data",
     "content": "With the broad variety of visualization styles, Kibana allows you to create a visualization of your data in the Elasticsearch indices. ",
     "url": "http://localhost:4000/usage#visualize-data",
     "relUrl": "/usage#visualize-data"
-  },"39": {
+  },"41": {
     "doc": "Usage",
     "title": "Dashboards",
     "content": "Dashboards in Kibana let you rapidly create views that pull together charts, maps, and filters to display the full picture of your Elasticsearch data. ",
     "url": "http://localhost:4000/usage#dashboards",
     "relUrl": "/usage#dashboards"
-  },"40": {
+  },"42": {
     "doc": "Usage",
     "title": "Monitoring",
     "content": "We can use metricbeat to collect logs and metrics of our stack. The monitoring page of Kibana is usefull in multiple ways: . | You can visualize the data across Elastic Stack as it includes options to monitor the performance data for Elasticsearch, Kibana, Logstash as well as Beats in real-time | You can also analyze the past performance of these products | . ",
     "url": "http://localhost:4000/usage#monitoring",
     "relUrl": "/usage#monitoring"
-  },"41": {
+  },"43": {
     "doc": "Usage",
     "title": "Security features SIEM",
     "content": "Elastic Security combines SIEM threat detection features with endpoint prevention and response capabilities in one solution. These analytical and protection capabilities, leveraged by the speed and extensibility of Elasticsearch, enable analysts to defend their organization from threats before damage and loss occur. Elastic Security provides the following security benefits and capabilities: . | A detection engine to identify attacks and system misconfigurations | A workspace for event triage and investigations | Interactive visualizations to investigate process relationships | Inbuilt case management with automated actions | Detection of signatureless attacks with prebuilt machine learning anomaly jobs and detection rules | . ",
     "url": "http://localhost:4000/usage#security-features-siem",
     "relUrl": "/usage#security-features-siem"
-  },"42": {
+  },"44": {
     "doc": "Usage",
     "title": "Logstash",
     "content": " ",
     "url": "http://localhost:4000/usage#logstash",
     "relUrl": "/usage#logstash"
-  },"43": {
+  },"45": {
     "doc": "Usage",
     "title": "Parsing log using logstash",
     "content": "Sometimes there is a perfect filter that can be used to parse your data, e.g. the json filter in case your logs are in JSON format. A lot of the time we do however need to parse logs in different types of text formats. The example we will use is a line of sysmon logs that looks as follows: . &lt;34&gt;1 2003-10-11T22:14:15.003Z mymachine.example.com su - ID47 - BOM'su root' failed for lonvick on /dev/pts/8 . ",
     "url": "http://localhost:4000/usage#parsing-log-using-logstash",
     "relUrl": "/usage#parsing-log-using-logstash"
-  },"44": {
+  },"46": {
     "doc": "Usage",
     "title": "Usage",
     "content": " ",

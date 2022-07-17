@@ -464,3 +464,121 @@ You can check the Discover section to confirm data is shipping succesfully.
 ![discover](https://i.ibb.co/w7sBnDX/Screen-Shot-2022-07-16-at-9-18-02-PM.png)
 
 ---
+
+# Fleet server
+
+[Resource#1](https://www.elastic.co/guide/en/fleet/current/fleet-server.html)
+
+[Resource#2](https://www.elastic.co/guide/en/fleet/current/add-a-fleet-server.html)
+
+Fleet Server is a component of the Elastic Stack used to centrally manage Elastic Agents. It’s launched as part of an Elastic Agent on a host intended to act as a server. One Fleet Server process can support many Elastic Agent connections, and serves as a control plane for updating agent policies, collecting status information, and coordinating actions across Elastic Agents.
+
+To deploy a self-managed Fleet Server, you install an Elastic Agent and enroll it in an agent policy containing the Fleet Server integration.
+
+First we need to creat Fleet server policy, Head to **Management > Fleet > Settings** and specify your host IP adress. After that you be provided with the commands needed to start your fleet server. The commands contain commands to download elastic agent. Be careful with the version to insure compatibility. If you enabled security on your cluster you need to specify the path for your CA cert so the ssl can be verified, You can use the flag ***--fleet-server-es-ca=*** to provide an absolute path to your CA cert.
+
+![Fleet server](https://www.elastic.co/guide/en/fleet/current/images/add-fleet-server.png)
+
+---
+
+# Monitor your stack with Metricbeat
+
+
+*Metricbeat is a lightweight agent that can be installed on target servers to periodically collect metric data from your target servers, this could be operating system metrics such as CPU or memory or data related to services running on the server. It can also be used to monitor other beats and ELK stack itself.*
+
+![metricbeat](https://miro.medium.com/max/1056/0*6axE2zHZt_fsLFFx.png)
+
+First we need to enable monitoring on elastisearch cluster:
+
+Add this to your elasticsearch.yml
+
+```
+xpack.monitoring.collection.enabled: true
+xpack.monitoring.elasticsearch.collection.enabled: true
+
+```
+
+After saving the config you have to restart elasticsearch.
+
+Now download metricbeat:
+
+```
+wget https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-8.3.1-linux-x86_64.tar.gz
+tar -xzf metricbeat-8.3.1-linux-x86_64.tar.gz
+cd metricbeat-8.3.1/
+```
+
+Your main config file will be config/metricbeat.yml. You can enable modules and configure each module directly from ***modules.d/nameofmodule.yml***, Or you can configure modules directly on your metricbeat.yml.
+
+metricbeat.yml
+
+```
+
+# Provide elasticsearch host and credentials so metricbeat can save data in your cluster. p.s don't forget CA.crt so metricbeat can verify the ssl connection.
+
+output.elasticsearch:
+  hosts: ["https://localhost:9200"]
+  username: "elastic"
+  password: 'elastic_password'
+  ssl:
+    enabled: true
+    certificate_authorities: "/root/config/certs/ca/ca.crt"
+
+# We gonna monitor our whole stack so we are going to enable modules for elasticsearch, kibana, logstash
+
+metricbeat.modules:
+- module: elasticsearch
+  xpack.enabled: true
+  period: 10s
+  scope: cluster
+  hosts: ["https://localhost:9200"]
+  username: "elastic"
+  password: 'elastic_password'
+  ssl:
+    enabled: true
+    certificate_authorities: "/root/config/certs/ca/ca.crt"
+
+- module: kibana
+  metricsets: ["status"]
+  period: 10s
+  xpack.enabled: true
+  hosts: ["http://localhost:5601"]
+  username: "elastic"
+  password: 'elastic_password'
+
+- module: logstash
+  metricsets: ["node", "node_stats"]
+  period: 10s
+  hosts: ["localhost:9600"]
+  username: "elastic"
+  password: 'elastic_password'
+  xpack.enabled: true
+
+# Provide your kibana credentials so the dashboards can be setted up.
+
+setup.kibana:
+    host: "kibana:5601"
+    protocol: "http"
+    username: "elastic"
+    password: '${ELASTIC_PASSWORD}'
+
+
+```
+
+Now you can start Metricbeat setup:
+
+```
+./metricbeat setup -e
+```
+
+and start metricbeat to start collecting metrics:
+
+```
+./metricbeat -e
+```
+
+If everything worked right, you need to find metricbeat dashboard in kibana, and monitor section start showing metrics.
+
+![metricbeat dashboards](https://i.ibb.co/R6517sP/Screen-Shot-2022-07-17-at-11-06-42-PM.png)
+
+![stack monitoring](https://i.ibb.co/x7brLHx/Screen-Shot-2022-07-16-at-7-50-42-PM.png)
