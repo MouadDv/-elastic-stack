@@ -62,17 +62,11 @@ By distributing the documents in an index across multiple shards, and distributi
 
 # Logstash
 
-Logstash is responsible for aggregating data from different sources, processing it, and sending it down the pipeline, usually to be directly indexed in Elasticsearch.
+Logstash is a plugin-based data collection and processing engine. It comes with a wide range of plugins that makes it possible to easily configre it to collect, process and forward data in many different architectures.
 
-## Logstash inputs
+Processing is organized into one or more pipelines. In each pipeline, one or more input plugins receive or collect data that is then placed on an internal queue. This is by default small and held in memory, but can be configured to be larger and persisted on disk in order to improve reliability and resiliency.
 
-Using more than 50 input plugins for different platforms, databases and applications, Logstash can be defined to collect and process data from these sources and send them to other systems for storage and analysis.
-
-The most common inputs used are file, beats, syslog, http, tcp, stdin but you can ingest data from plenty of other sources.
-
-## Logstash Filters
-
-Logstash supports a number of extremely powerful filter plugins that enable you to manipulate, measure, and create events. It’s the power of these filters that makes Logstash a very versatile and valuable tool.
+![logstash](https://images.contentstack.io/v3/assets/bltefdd0b53724fa2ce/blt3959396f94d16f1b/5c304d53e71ce40c6e4ad977/logstash-instance-input-filter-output-plugins.png)
 
 ---
 

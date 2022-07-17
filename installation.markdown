@@ -9,14 +9,16 @@ nav_order: 2
 
 ***All the configuration files are included in the main branch of this repo.***
 
+*Note: all the elk stack software we installed are the same version, Be carefull with the version you choose to install because elk stack does not do well with back compatibility.*
+
+[Support Matrix for all Elastic softwares](https://www.elastic.co/support/matrix)
+
 # Elasticsearch installation and configuration on Linux
 
 To download Elasticsearch archive we can use wget or curl:
 
 ```
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.3.1-linux-x86_64.tar.gz
-wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.3.1-linux-x86_64.tar.gz.sha512
-shasum -a 512 -c elasticsearch-8.3.1-linux-x86_64.tar.gz.sha512 
 tar -xzf elasticsearch-8.3.1-linux-x86_64.tar.gz
 cd elasticsearch-8.3.1/
 ```
@@ -103,7 +105,13 @@ As you can see we started elasticsearch succesfuly and it provided us with the p
 
 To run multiple nodes in the same host we need to reconfigure our master-node.
 
-*Note: To not exceed the memory limit we can set the ES_JAVA_OPTS envirment variable and specify the min and max memory usage*
+[Resource#1](https://www.elastic.co/guide/en/cloud-enterprise/2.0/ece-heap.html#ece_elasticsearch_clusters_and_jvm_heap_size)
+
+For Elasticsearch clusters, ECE gives 50% of the available memory to the JVM heap used by Elasticsearch, while leaving the other 50% for the operating system. This memory won’t go unused, as Lucene is designed to leverage the underlying OS for caching in-memory data structures, meaning that Lucene will happily gobble up whatever is left over. The ideal heap size is somewhere below 32 GB, as heap sizes above 32 GB become less efficient.
+
+What these recommendations mean is that on a 64 GB cluster, we dedicate 32 GB to the Elasticsearch heap and 32 GB to the operating system in the container that hosts your cluster. If you provision a 128 GB cluster, we create two 64 GB nodes, each node with 32 GB reserved for the Elasticsearch heap and 32 GB reserved for the operating system.
+
+To not exceed the memory limit we can set the ES_JAVA_OPTS envirment variable and specify the min and max memory usage
 
 ```
 export ES_JAVA_OPTS="-Xms2g -Xmx2g"
@@ -313,3 +321,146 @@ After that lets start logstash
 ./bin/logstash -f config/logstash.conf
 ```
 
+All the data is stored on elasticsearch and we can comfirm that after installing kibana.
+
+---
+
+# Kibana installation
+
+As elasticsearch and logstash we can download the archive containing the binaries directly or we can use any package manager (Depending on your distro of choice) to install kibana.
+
+```
+wget https://artifacts.elastic.co/downloads/kibana/kibana-8.3.1-linux-x86_64.tar.gz
+tar -xzf kibana-8.3.1-linux-x86_64.tar.gz
+cd kibana-8.3.1/
+```
+
+This is the important configs we need to start kibana:
+
+```
+# Changing host to be able to access kibana externaly
+
+server.host: "0.0.0.0"
+
+# Provide the host and port for your elasticsearch cluster
+
+elasticsearch.hosts: ["https://localhost:9200"]
+
+# Provide the crendentials to your kibana_system user, you can reset the password for this user using elasticsearch-reset-password binary.
+
+elasticsearch.username: "kibana_system"
+elasticsearch.password: kibana_password
+
+# Provide kibana with the your CA certificate so the connection can be verified between kibana and elasticsearch
+
+elasticsearch.ssl.verificationMode: certificate
+
+elasticsearch.ssl.certificateAuthorities: [ "/etc/kibana/config/certs/ca/ca.crt" ]
+```
+
+To run kibana:
+
+```
+./bin/kibana
+```
+
+After running kibana we can access it at http://localhost:5601
+
+![Kibana](https://i.ibb.co/VSWhMjZ/Screen-Shot-2022-07-16-at-5-32-15-PM.png)
+
+Lets confirm that logstash data is stored by checking Analytics->Discovery
+
+First we need to cearte a data view for the index we used in our data
+
+![create_data_view#1](https://i.ibb.co/8cyMLFN/Screen-Shot-2022-07-16-at-5-34-59-PM.png)
+
+![data](https://i.ibb.co/vYftmbP/Screen-Shot-2022-07-16-at-5-35-14-PM.png)
+
+---
+
+# Monitor a windows machine using sysmon logs
+
+- Download Sysmon
+
+[https://download.sysinternals.com/files/SysinternalsSuite.zip](https://download.sysinternals.com/files/SysinternalsSuite.zip)
+
+- We are going to use existing configuration by olafhartong
+
+[https://github.com/olafhartong/sysmon-modular](https://github.com/olafhartong/sysmon-modular)
+
+[https://raw.githubusercontent.com/olafhartong/sysmon-modular/master/sysmonconfig.xml](https://raw.githubusercontent.com/olafhartong/sysmon-modular/master/sysmonconfig.xml)
+
+- Install by opening up a command prompt as administrator
+
+```
+# 32 bit
+
+sysmon.exe –accepteula –i PATH/TO/sysmonconfig.xml
+
+# 64 bit
+
+sysmon64.exe –accepteula –i PATH/TO/sysmonconfig.xml
+```
+
+- Download Winlogbeat
+
+[https://artifacts.elastic.co/downloads/beats/winlogbeat/winlogbeat-8.3.2-windows-x86_64.zip](https://artifacts.elastic.co/downloads/beats/winlogbeat/winlogbeat-8.3.2-windows-x86_64.zip)
+
+- Extract the contents into C:\Program Files.
+
+- Rename the winlogbeat-<version> directory to Winlogbeat
+
+- Using PowerShell prompt as an Administrator
+
+```
+# Access winlogbeat directory
+
+cd 'C:\Program Files\Winlogbeat'
+
+# Install winlogbeat service
+
+.\install-service-winlogbeat.ps1
+
+```
+
+- Configure winlogbeat to connect ro the elastic stack
+
+winlogbeat.yml
+
+```
+output.elasticsearch:
+  hosts: ["https://YOUR-HOST:9200"]
+  username: "winlogbeat_internal"
+  password: "YOUR_PASSWORD"
+```
+
+```
+# provide kibana host credential to setup dashboards
+
+setup.kibana:
+    host: "mykibanahost:5601" 
+    username: "my_kibana_user"  
+    password: "{pwd}"
+
+```
+
+- Setup assets
+
+```
+.\winlogbeat.exe setup -e
+```
+
+- Start Winlogbeat
+
+```
+Start-Service winlogbeat
+```
+
+![winlogbeat](https://i.ibb.co/Cb3WHM0/Screen-Shot-2022-07-16-at-9-16-20-PM.png)
+
+
+You can check the Discover section to confirm data is shipping succesfully.
+
+![discover](https://i.ibb.co/w7sBnDX/Screen-Shot-2022-07-16-at-9-18-02-PM.png)
+
+---

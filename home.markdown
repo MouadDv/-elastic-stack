@@ -9,6 +9,8 @@ In this Documentation we are going to go through the ELK stack and try to unders
 
 [Overview of the stack](/overview)
 
-[Installation](/installation)
+[Installation and configuration](/installation)
 
-[Configuration](/configuration)
+[Usage](/usage)
+
+[Resources](/Resources)

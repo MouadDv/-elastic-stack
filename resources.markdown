@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Resources
-permalink: /Resources/
+permalink: /Resources
 nav_order: 100
 ---
 
@@ -75,25 +75,64 @@ The number of primary shards in an index is fixed at the time that an index is c
 
 ## elastic search search language
 
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html)
+
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-query-string-query.html)
+
 ## jvm heap sizing
+
+[https://www.elastic.co/guide/en/cloud-enterprise/2.0/ece-heap.html#:~:text=Elasticsearch%20clusters%20and%20JVM%20Heap%20Size&text=The%20ideal%20heap%20size%20is,container%20that%20hosts%20your%20cluster.](https://www.elastic.co/guide/en/cloud-enterprise/2.0/ece-heap.html#:~:text=Elasticsearch%20clusters%20and%20JVM%20Heap%20Size&text=The%20ideal%20heap%20size%20is,container%20that%20hosts%20your%20cluster.)
+
+[https://www.elastic.co/guide/en/elasticsearch/reference/6.5/heap-size.html](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/heap-size.html)
 
 ## API and RESTful APIs in ELasticsearch
 
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/rest-apis.html)
+
+[https://logz.io/blog/elasticsearch-api/](https://logz.io/blog/elasticsearch-api/)
+
+[https://hevodata.com/learn/elasticsearch-rest-api/](https://hevodata.com/learn/elasticsearch-rest-api/)
+
 ## ETL
+
+[https://www.ibm.com/cloud/learn/etl#:~:text=ETL%2C%20which%20stands%20for%20extract,warehouse%20or%20other%20target%20system.](https://www.ibm.com/cloud/learn/etl#:~:text=ETL%2C%20which%20stands%20for%20extract,warehouse%20or%20other%20target%20system.)
+
+[https://en.wikipedia.org/wiki/Extract,_transform,_load](https://en.wikipedia.org/wiki/Extract,_transform,_load)
 
 ## Multitentants
 
-## secutity features SIEM
+[https://www.techtarget.com/whatis/definition/multi-tenancy#:~:text=Multi%2Dtenancy%20is%20an%20architecture,customer%20is%20called%20a%20tenant.](https://www.techtarget.com/whatis/definition/multi-tenancy#:~:text=Multi%2Dtenancy%20is%20an%20architecture,customer%20is%20called%20a%20tenant.)
+
+[https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference](https://digitalguardian.com/blog/saas-single-tenant-vs-multi-tenant-whats-difference)
+
+[https://www.sisense.com/glossary/multi-tenant/](https://www.sisense.com/glossary/multi-tenant/)
+
+[https://en.wikipedia.org/wiki/Multitenancy](https://en.wikipedia.org/wiki/Multitenancy)
+
+## Security features SIEM
+
+[https://www.elastic.co/guide/en/kibana/current/xpack-siem.html#:~:text=Elastic%20Security%20combines%20SIEM%20threat,before%20damage%20and%20loss%20occur.](https://www.elastic.co/guide/en/kibana/current/xpack-siem.html#:~:text=Elastic%20Security%20combines%20SIEM%20threat,before%20damage%20and%20loss%20occur.)
 
 ## data tiers in elasticsearch
 
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/data-tiers.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/data-tiers.html)
+
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-node.html)
+
 ## life cycle managment
+
+[https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/index-lifecycle-management.html)
 
 ## xdr elasticsearch
 
+[https://www.elastic.co/what-is/limitless-xdr](https://www.elastic.co/what-is/limitless-xdr)
 
+[https://www.elastic.co/blog/elasticon-global-security](https://www.elastic.co/blog/elasticon-global-security)
 
+## Logstash parsing
 
+[https://www.elastic.co/guide/en/logstash/current/advanced-pipeline.html](https://www.elastic.co/guide/en/logstash/current/advanced-pipeline.html)
 
+[https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html](https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html)
 
-[]()
+[https://www.tutorialspoint.com/logstash/logstash_parsing_the_logs.htm](https://www.tutorialspoint.com/logstash/logstash_parsing_the_logs.htm)
